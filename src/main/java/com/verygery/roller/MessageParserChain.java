@@ -9,7 +9,7 @@ import com.skype.ChatMessage;
 import com.skype.SkypeException;
 
 /**
- * Parses a Skype message and runs proper commands accordingly.
+ * Calls a chain of parsers to parse a command.
  */
 public class MessageParserChain implements MessageParser {
 
@@ -17,6 +17,7 @@ public class MessageParserChain implements MessageParser {
 
   private List<MessageParser> chain = new ArrayList<>();
 
+  @Override
   public Optional<String> parse(ChatMessage message) throws SkypeException {
     Optional<String> result = Optional.absent();
     String content = message.getContent();

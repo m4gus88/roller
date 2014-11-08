@@ -5,9 +5,13 @@ import com.skype.ChatMessage;
 import com.skype.ChatMessageListener;
 import com.skype.SkypeException;
 
+/**
+ * Listens to chat messages and runs a message parser for every received and
+ * sent message.
+ */
 public class MessageParsingChatMessageListener implements ChatMessageListener {
 
-  private MessageParserChain messageParser;
+  private MessageParser messageParser;
 
   @Override
   public void chatMessageReceived(ChatMessage receivedChatMessage) throws SkypeException {
