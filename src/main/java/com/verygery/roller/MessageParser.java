@@ -1,6 +1,5 @@
 package com.verygery.roller;
 
-import com.google.common.base.Optional;
 import com.skype.ChatMessage;
 import com.skype.SkypeException;
 
@@ -11,13 +10,13 @@ public interface MessageParser {
 
   /**
    * Parses a Skype message.
-   * 
+   *
    * @param message
    *          The Skype message to parse.
-   * @return The result to send back.
+   * @return <code>true</code> if the message was properly parsed.
    * @throws SkypeException
    *           when connection is lost.
    */
-  public Optional<String> parse(ChatMessage message) throws SkypeException;
+  public boolean parse(ChatMessage message) throws SkypeException;
 
 }

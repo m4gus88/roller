@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.google.common.base.Optional;
 import com.skype.ChatMessage;
 import com.skype.SkypeException;
 
@@ -19,8 +18,8 @@ public class DiceRollParser implements MessageParser {
   private DiceRoller diceRoller = new DiceRoller();
 
   @Override
-  public Optional<String> parse(ChatMessage message) throws SkypeException {
-    String result = null;
+  public boolean parse(ChatMessage message) throws SkypeException {
+    boolean result = false;
     Matcher matcher = PATTERN.matcher(message.getContent());
     if (matcher.matches()) {
       int count = fetchCount(matcher);
@@ -29,9 +28,10 @@ public class DiceRollParser implements MessageParser {
       List<Integer> dice = diceRoller.rollDice(count, sides);
 
       String sender = message.getSenderDisplayName();
-      result = buildResponse(count, sides, bonus, dice, sender);
+      message.getChat().send(buildResponse(count, sides, bonus, dice, sender));
+      result = true;
     }
-    return Optional.fromNullable(result);
+    return result;
   }
 
   private int fetchCount(Matcher matcher) {
@@ -87,7 +87,7 @@ public class DiceRollParser implements MessageParser {
     Iterator<Integer> iterator = dice.iterator();
     while (iterator.hasNext()) {
       Integer die = iterator.next();
-      total += iterator.next();
+      total += die;
       sb.append(die);
       if (iterator.hasNext()) {
         sb.append(", ");

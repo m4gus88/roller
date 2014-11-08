@@ -9,6 +9,7 @@ public class Application {
     Skype.setDaemon(false);
     MessageParserChain parser = new MessageParserChain();
     parser.addParser(new DiceRollParser());
+    parser.addParser(new ChatCreatorParser());
     MessageParsingChatMessageListener listener = new MessageParsingChatMessageListener();
     listener.setMessageParser(parser);
 

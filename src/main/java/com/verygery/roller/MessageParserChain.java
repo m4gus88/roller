@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import com.google.common.base.Optional;
 import com.skype.ChatMessage;
 import com.skype.SkypeException;
 
@@ -18,16 +17,16 @@ public class MessageParserChain implements MessageParser {
   private List<MessageParser> chain = new ArrayList<>();
 
   @Override
-  public Optional<String> parse(ChatMessage message) throws SkypeException {
-    Optional<String> result = Optional.absent();
+  public boolean parse(ChatMessage message) throws SkypeException {
     String content = message.getContent();
     if (content.startsWith(PREFIX)) {
       Iterator<MessageParser> iterator = chain.iterator();
-      while (!result.isPresent() && iterator.hasNext()) {
-        result = iterator.next().parse(message);
+      boolean parsed = false;
+      while (!parsed && iterator.hasNext()) {
+        parsed = iterator.next().parse(message);
       }
     }
-    return result;
+    return true;
   }
 
   public void addParser(MessageParser parser) {
